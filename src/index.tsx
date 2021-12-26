@@ -6,13 +6,23 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Post, Posts } from './pages';
 
+const drawHelloMessage = (componentName: string) => {
+    console.log(`Hello from ${componentName}!`);
+};
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="posts" element={<Posts />} />
-                <Route path="post" element={<Post />} />
+                <Route
+                    path="posts"
+                    element={<Posts drawHelloMessage={drawHelloMessage} />}
+                />
+                <Route
+                    path="post/:postId"
+                    element={<Post drawHelloMessage={drawHelloMessage} />}
+                />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>,
