@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Post, Posts } from './pages';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Post, PostList } from './pages';
+import { ContextProvider } from './context/Context';
 
 const drawHelloMessage = (componentName: string) => {
     console.log(`Hello from ${componentName}!`);
@@ -12,19 +13,27 @@ const drawHelloMessage = (componentName: string) => {
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App />} />
-                <Route
-                    path="posts"
-                    element={<Posts drawHelloMessage={drawHelloMessage} />}
-                />
-                <Route
-                    path="post/:postId"
-                    element={<Post drawHelloMessage={drawHelloMessage} />}
-                />
-            </Routes>
-        </BrowserRouter>
+        <ContextProvider>
+            <BrowserRouter>
+                <h1>Posts</h1>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<Navigate replace to="/posts" />}
+                    />
+                    <Route
+                        path="/posts"
+                        element={
+                            <PostList drawHelloMessage={drawHelloMessage} />
+                        }
+                    />
+                    <Route
+                        path="/post/:postId"
+                        element={<Post drawHelloMessage={drawHelloMessage} />}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </ContextProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );
