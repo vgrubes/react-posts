@@ -1,19 +1,15 @@
-import React, { useContext, useState, useMemo } from 'react';
-import { PostTile } from '../components';
+import React, { useContext, useMemo } from 'react';
+import { PageLayout, PostTile, Search } from '../components';
 import { IPost } from '../constants/interfaces';
 import { Context } from '../context/Context';
+import style from './PostList.module.scss';
 
 interface Props {
     drawHelloMessage: (helloMessage: string) => void;
 }
 
 export const PostList: React.FC<Props> = (props: Props) => {
-    const { posts, users, comments } = useContext(Context);
-    const [searchString, setSearchString] = useState<string>('');
-
-    const onSearchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchString(ev.target.value);
-    };
+    const { posts, users, comments, searchString } = useContext(Context);
 
     const getPosts = useMemo((): IPost[] => {
         if (searchString) {
@@ -28,9 +24,8 @@ export const PostList: React.FC<Props> = (props: Props) => {
     }, [searchString, posts]);
 
     return (
-        <div>
-            <input type="text" onChange={onSearchChange} />
-            <ul>
+        <PageLayout navigationComponent={<Search />}>
+            <ul className={style.postListWrapper}>
                 {getPosts?.map((post) => {
                     return (
                         <li key={post.id}>
@@ -45,6 +40,6 @@ export const PostList: React.FC<Props> = (props: Props) => {
                     );
                 })}
             </ul>
-        </div>
+        </PageLayout>
     );
 };

@@ -41,4 +41,6 @@ export interface IContext {
     posts: IPost[];
     comments: IComment[];
     users: IUser[];
+    setSearchString: (searchString: string) => void;
+    searchString: string;
 }

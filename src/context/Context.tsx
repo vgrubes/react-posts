@@ -14,6 +14,8 @@ export const Context = createContext<IContext>({
     comments: [],
     users: [],
     posts: [],
+    searchString: '',
+    setSearchString: () => {},
 });
 
 export const ContextProvider: React.FC<Props> = (props) => {
@@ -24,51 +26,27 @@ export const ContextProvider: React.FC<Props> = (props) => {
     const [posts, setPosts] = useState<IPost[] | null>(null);
     const [comments, setComments] = useState<IComment[] | null>(null);
     const [users, setUsers] = useState<IUser[] | null>(null);
+    const [searchString, setSearchString] = useState<string>('');
 
-    const populatePosts = useCallback(async () => {
+    const populateData = useCallback(async () => {
         try {
-            const posts = await postService.getPosts();
-            setPosts(posts);
-        } catch (e) {
-            console.error('Populate posts error!', e);
-        }
-    }, [postService]);
+            const posts = postService.getPosts();
+            const comments = postService.getComments();
+            const users = postService.getUsers();
 
-    const populateComments = useCallback(async () => {
-        try {
-            const comments = await postService.getComments();
-            setComments(comments);
+            Promise.all([posts, comments, users]).then((values) => {
+                setPosts(values[0]);
+                setComments(values[1]);
+                setUsers(values[2]);
+            });
         } catch (e) {
-            console.error('Populate comments error!', e);
-        }
-    }, [postService]);
-
-    const populateUsers = useCallback(async () => {
-        try {
-            const users = await postService.getUsers();
-            setUsers(users);
-        } catch (e) {
-            console.error('Populate users error!', e);
+            console.error('Populate data error!', e);
         }
     }, [postService]);
 
     useEffect(() => {
-        if (posts === null) {
-            populatePosts();
-        }
-    }, [populatePosts, posts]);
-
-    useEffect(() => {
-        if (comments === null) {
-            populateComments();
-        }
-    }, [populateComments, comments]);
-
-    useEffect(() => {
-        if (users === null) {
-            populateUsers();
-        }
-    }, [populateUsers, users]);
+        populateData();
+    }, [populateData]);
 
     return (
         <Context.Provider
@@ -76,6 +54,8 @@ export const ContextProvider: React.FC<Props> = (props) => {
                 comments: comments ?? [],
                 users: users ?? [],
                 posts: posts ?? [],
+                searchString,
+                setSearchString,
             }}
         >
             {props.children}

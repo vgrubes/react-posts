@@ -1,0 +1,23 @@
+@import '../style/consts.scss';
+
+.wrapper {
+    background-color: $accent-color1;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    margin: 20px auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    text-transform: capitalize;
+}
+
+.user {
+    color: $accent-color3;
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}

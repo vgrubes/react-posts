@@ -1,16 +1,37 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ContextProvider } from './context/Context';
+import { PostDetail, PostList } from './pages';
 
-function App() {
+interface Props {}
+
+export const App: React.FC<Props> = (props) => {
+    const drawHelloMessage = (componentName: string) => {
+        console.log(`Hello from ${componentName}!`);
+    };
+
     return (
-        <div className="App">
-            <h1>Test</h1>
-
-            <nav>
-                <Link to="/posts">posts</Link>
-                <Link to="/post">post</Link>
-            </nav>
-        </div>
+        <ContextProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<Navigate replace to="/posts" />}
+                    />
+                    <Route
+                        path="/posts"
+                        element={
+                            <PostList drawHelloMessage={drawHelloMessage} />
+                        }
+                    />
+                    <Route
+                        path="/post/:postId"
+                        element={
+                            <PostDetail drawHelloMessage={drawHelloMessage} />
+                        }
+                    />
+                </Routes>
+            </BrowserRouter>
+        </ContextProvider>
     );
-}
-
-export default App;
+};

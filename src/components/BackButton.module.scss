@@ -1,0 +1,33 @@
+@import '../style/consts.scss';
+
+.button {
+    background-color: $accent-color2;
+    border: 1px solid $background-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-decoration: none;
+    transition: all 200ms;
+    text-transform: uppercase;
+    max-height: 10px;
+
+    &:hover {
+        background-color: darken(rgb(10, 53, 95), 2%);
+        transition: all 200ms;
+
+        span {
+            color: white;
+            transition: all 200ms;
+        }
+    }
+
+    
+}
+
+.buttonLabel {
+    color: black;
+    text-decoration: none;
+
+    
+}

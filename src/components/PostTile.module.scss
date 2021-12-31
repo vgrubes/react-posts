@@ -1,0 +1,37 @@
+@import '../style/consts.scss';
+
+.tileWrapper {
+    width: 400px;
+    // height: 400px;
+    margin: 5px;
+    background-color: $accent-color1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-decoration: none;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 200ms;
+    z-index: 1;
+
+    &:hover {
+        transform: scale(1.02);
+        transition: all 200ms;
+        z-index: 1;
+        position: relative;
+    }
+}
+
+.tileTitle {
+    text-transform: capitalize;
+    margin: 0 0 10px 0;
+}
+
+.tileUser {
+    color: $accent-color3;
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
