@@ -1,6 +1,6 @@
-# Reac Posts app
+# React Posts app
 
-First version of application is done in approx. 6-7 hours. 
+First version of application is done in approx. 6-7 hours. Application is created with create-react-app and all common scripts are available to use.
 
 Points where I would do next improvements: 
 
