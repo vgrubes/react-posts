@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IComment, IPost, IUser } from '../constants/interfaces';
 import style from './PostTile.module.scss';
@@ -7,10 +7,18 @@ interface Props {
     post: IPost;
     comments?: IComment[];
     user?: IUser;
+    drawHelloMessage: (
+        componentName: string,
+        additionalMessage?: string
+    ) => void;
 }
 
 export const PostTile: React.FC<Props> = (props) => {
-    const { post, comments, user } = { ...props };
+    const { post, comments, user, drawHelloMessage } = { ...props };
+
+    useEffect(() => {
+        drawHelloMessage('Post Tile');
+    });
 
     return (
         <Link className={style.tileWrapper} to={`/post/${post.id}`}>

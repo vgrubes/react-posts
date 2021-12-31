@@ -43,4 +43,5 @@ export interface IContext {
     users: IUser[];
     setSearchString: (searchString: string) => void;
     searchString: string;
+    isLoading: boolean;
 }

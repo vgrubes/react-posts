@@ -16,6 +16,7 @@ export const Context = createContext<IContext>({
     posts: [],
     searchString: '',
     setSearchString: () => {},
+    isLoading: true,
 });
 
 export const ContextProvider: React.FC<Props> = (props) => {
@@ -27,6 +28,7 @@ export const ContextProvider: React.FC<Props> = (props) => {
     const [comments, setComments] = useState<IComment[] | null>(null);
     const [users, setUsers] = useState<IUser[] | null>(null);
     const [searchString, setSearchString] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const populateData = useCallback(async () => {
         try {
@@ -38,6 +40,7 @@ export const ContextProvider: React.FC<Props> = (props) => {
                 setPosts(values[0]);
                 setComments(values[1]);
                 setUsers(values[2]);
+                setIsLoading(false);
             });
         } catch (e) {
             console.error('Populate data error!', e);
@@ -56,6 +59,7 @@ export const ContextProvider: React.FC<Props> = (props) => {
                 posts: posts ?? [],
                 searchString,
                 setSearchString,
+                isLoading,
             }}
         >
             {props.children}

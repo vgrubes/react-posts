@@ -6,16 +6,20 @@ import { Context } from '../context/Context';
 import style from './PostDetail.module.scss';
 
 interface Props {
-    drawHelloMessage: (helloMessage: string) => void;
+    drawHelloMessage: (
+        componentName: string,
+        additionalMessage?: string
+    ) => void;
 }
 
 export const PostDetail: React.FC<Props> = (props: Props) => {
+    const { drawHelloMessage } = { ...props };
     const { postId } = useParams();
     const { posts, users, comments } = useContext(Context);
 
     useEffect(() => {
-        props.drawHelloMessage('Post Component');
-    }, [props]);
+        drawHelloMessage('Post Detail');
+    }, [drawHelloMessage]);
 
     const getPost: IPost | undefined = useMemo(() => {
         return posts.find((post) => post.id.toString() === postId);
@@ -30,7 +34,12 @@ export const PostDetail: React.FC<Props> = (props: Props) => {
     }, [getPost?.id, comments]);
 
     return (
-        <PageLayout navigationComponent={<BackButton />}>
+        <PageLayout
+            navigationComponent={
+                <BackButton drawHelloMessage={drawHelloMessage} />
+            }
+            drawHelloMessage={drawHelloMessage}
+        >
             <div className={style.wrapper}>
                 <h1 className={style.title}>{getPost?.title}</h1>
                 <span className={style.user}>
@@ -41,7 +50,7 @@ export const PostDetail: React.FC<Props> = (props: Props) => {
                 <ul>
                     {getComments.map((comment) => {
                         return (
-                            <li>
+                            <li key={comment.id}>
                                 <span>
                                     {comment.body} {comment.name}
                                 </span>

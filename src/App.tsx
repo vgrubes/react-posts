@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ContextProvider } from './context/Context';
 import { PostDetail, PostList } from './pages';
 
-interface Props {}
+export const App: React.FC = () => {
+    const drawHelloMessage = useCallback(
+        (componentName: string, additionalMessage?: string) => {
+            console.log(
+                additionalMessage
+                    ? `Hello from ${componentName} component - ${additionalMessage}!`
+                    : `Hello from ${componentName} component!`
+            );
+        },
+        []
+    );
 
-export const App: React.FC<Props> = (props) => {
-    const drawHelloMessage = (componentName: string) => {
-        console.log(`Hello from ${componentName}!`);
-    };
+    useEffect(() => {
+        drawHelloMessage('App');
+    }, [drawHelloMessage]);
 
     return (
         <ContextProvider>

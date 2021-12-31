@@ -1,15 +1,24 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { PageLayout, PostTile, Search } from '../components';
 import { IPost } from '../constants/interfaces';
 import { Context } from '../context/Context';
 import style from './PostList.module.scss';
 
 interface Props {
-    drawHelloMessage: (helloMessage: string) => void;
+    drawHelloMessage: (
+        componentName: string,
+        additionalMessage?: string
+    ) => void;
 }
 
 export const PostList: React.FC<Props> = (props: Props) => {
-    const { posts, users, comments, searchString } = useContext(Context);
+    const { drawHelloMessage } = { ...props };
+    const { posts, users, comments, searchString, isLoading } =
+        useContext(Context);
+
+    useEffect(() => {
+        drawHelloMessage('Post List');
+    }, [drawHelloMessage]);
 
     const getPosts = useMemo((): IPost[] => {
         if (searchString) {
@@ -23,8 +32,8 @@ export const PostList: React.FC<Props> = (props: Props) => {
         return posts;
     }, [searchString, posts]);
 
-    return (
-        <PageLayout navigationComponent={<Search />}>
+    const drawPostList = useCallback(
+        () => (
             <ul className={style.postListWrapper}>
                 {getPosts?.map((post) => {
                     return (
@@ -35,11 +44,26 @@ export const PostList: React.FC<Props> = (props: Props) => {
                                     (c) => c.postId === post.id
                                 )}
                                 user={users?.find((u) => u.id === post.userId)}
+                                drawHelloMessage={drawHelloMessage}
                             />
                         </li>
                     );
                 })}
             </ul>
+        ),
+        [comments, drawHelloMessage, getPosts, users]
+    );
+
+    return (
+        <PageLayout
+            navigationComponent={<Search drawHelloMessage={drawHelloMessage} />}
+            drawHelloMessage={drawHelloMessage}
+        >
+            {isLoading ? (
+                <h2 className={style.isLoading}>Loading...</h2>
+            ) : (
+                drawPostList()
+            )}
         </PageLayout>
     );
 };
