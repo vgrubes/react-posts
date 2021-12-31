@@ -1,4 +1,13 @@
-# Getting Started with Create React App
+# Reac Posts app
+
+First version of application is done in approx. 6-7 hours. 
+
+Points where I would do next improvements: 
+
+- Search functionality is very rudimentary, I would expand it with multiple string search capabilities and highlight of results.
+- Code cleanup - styling code is not very polished, as this is not exactly the scope of this excersise. 
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
